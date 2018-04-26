@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         theoPlayerView = findViewById(R.id.theoplayer);
+        theoPlayerView.getSettings().setFullScreenOrientationCoupled(true);
 
         TypedSource typedSource = TypedSource.Builder
                 .typedSource()
@@ -76,5 +77,23 @@ public class MainActivity extends AppCompatActivity {
                 txtTimeUpdate.setText(String.valueOf(timeUpdateEvent.getCurrentTime()));
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        theoPlayerView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        theoPlayerView.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        theoPlayerView.onDestroy();
     }
 }
