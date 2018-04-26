@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <com.theoplayer.android.api.THEOplayerView
@@ -11,5 +12,11 @@
         android:id="@+id/theoplayer">
 
     </com.theoplayer.android.api.THEOplayerView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_playpause"
+        android:text="PLAY/PAUSE"
+        app:layout_constraintTop_toBottomOf="@+id/theoplayer"/>
 
 </android.support.constraint.ConstraintLayout>

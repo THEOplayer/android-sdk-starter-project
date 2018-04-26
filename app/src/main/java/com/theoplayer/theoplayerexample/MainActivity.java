@@ -2,6 +2,8 @@ package com.theoplayer.theoplayerexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.theoplayer.android.api.THEOplayerView;
 import com.theoplayer.android.api.source.SourceDescription;
@@ -11,6 +13,7 @@ import com.theoplayer.android.api.source.TypedSource;
 public class MainActivity extends AppCompatActivity {
 
     THEOplayerView theoPlayerView;
+    Button btnPlayPause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,5 +33,17 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         theoPlayerView.getPlayer().setSource(sourceDescription);
+
+        btnPlayPause = findViewById(R.id.btn_playpause);
+        btnPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (theoPlayerView.getPlayer().isPaused()) {
+                    theoPlayerView.getPlayer().play();
+                } else {
+                    theoPlayerView.getPlayer().pause();
+                }
+            }
+        });
     }
 }
