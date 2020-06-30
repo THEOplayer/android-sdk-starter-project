@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.theoplayer.android.api.THEOplayerGlobal;
 import com.theoplayer.android.api.THEOplayerView;
+import com.theoplayer.android.api.contentprotection.KeySystemId;
 import com.theoplayer.android.api.event.EventListener;
 import com.theoplayer.android.api.event.player.PauseEvent;
 import com.theoplayer.android.api.event.player.PlayEvent;
@@ -15,6 +17,11 @@ import com.theoplayer.android.api.event.player.TimeUpdateEvent;
 import com.theoplayer.android.api.source.SourceDescription;
 import com.theoplayer.android.api.source.SourceType;
 import com.theoplayer.android.api.source.TypedSource;
+import com.theoplayer.android.api.source.drm.DRMConfiguration;
+
+import java.util.HashMap;
+
+import static com.theoplayer.android.api.source.drm.KeySystemConfiguration.Builder.keySystemConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,10 +37,33 @@ public class MainActivity extends AppCompatActivity {
         theoPlayerView = findViewById(R.id.theoplayer);
         theoPlayerView.getSettings().setFullScreenOrientationCoupled(true);
 
+        THEOplayerGlobal
+                .getSharedInstance(getApplicationContext())
+                .registerContentProtectionIntegration("my-custom-integration", KeySystemId.WIDEVINE, new CustomWidevineContentProtectionIntegrationFactory());
+
+        /*
+         * The DRMConfiguration builder allows configuring some integrationParameters. Use this to
+         * pass all data you desire to the ContentProtectionIntegration.
+         */
+        HashMap<String, Object> customIntegrationParameters = new HashMap<>();
+        customIntegrationParameters.put("custom-key", "custom-value");
+
         TypedSource typedSource = TypedSource.Builder
                 .typedSource()
-                .src("https://cdn.theoplayer.com/video/dash/big_buck_bunny/BigBuckBunny_10s_simple_2014_05_09.mpd")
+                .src("STREAM URL")
                 .type(SourceType.DASH)
+                .setNativeRenderingEnabled(true)
+                .setNativeUiRenderingEnabled(true)
+                .drm(
+                        new DRMConfiguration.Builder()
+                                .customIntegrationId("my-custom-integration") // Ensure this string matches the one used when registering your ContentProtectionIntegrationFactory.
+                                .integrationParameters(customIntegrationParameters) // Will be accessible from the ContentProtectionIntegration.
+                                .widevine(
+                                        keySystemConfiguration("LICENSE URL")
+                                                .build()
+                                )
+                                .build()
+                )
                 .build();
 
         SourceDescription sourceDescription = SourceDescription.Builder
