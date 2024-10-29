@@ -1,4 +1,7 @@
-# THEOplayer Android SDK - Starter project
+# [Archived] THEOplayer Android SDK - Starter project
+
+> [!CAUTION]
+> This sample project uses older versions of THEOplayer and is no longer maintained. Visit [THEOplayer/samples-android-sdk](https://github.com/THEOplayer/samples-android-sdk) for samples with the most recent THEOplayer SDK.
 
 ## License
 
